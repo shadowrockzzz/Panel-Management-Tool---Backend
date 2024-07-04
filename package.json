@@ -1,7 +1,7 @@
 {
-  "name": "netflixspoofbackend",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Backend for Netflix Baselined Project",
+  "description": "Backend for random Baselined Project",
   "main": "index.js",
   "type": "module",
   "scripts": {
