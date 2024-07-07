@@ -24,7 +24,8 @@ const register = async (req,res)=>{
 }
 
 const login = async (req,res)=>{
-    const {userName, password} = req.body;
+    // console.log(req.query)
+    const {userName, password} = req.query;
 
     try{
         let user = await User.findOne({userName})
@@ -32,7 +33,9 @@ const login = async (req,res)=>{
         res.status(404).json({message:"Invalid Credentials"})
     }
     
-    const isMatch = await bcrypt.compare(password, user.password)
+    // const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = (password===user.password) ? true : false;
+
     if(!isMatch){
         res.status(404).json({message: "Invalid Credentials"})
     }

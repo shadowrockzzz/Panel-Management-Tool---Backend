@@ -24,6 +24,9 @@ const registerUser = async (username, email, password) => {
 };
 
 const loginUser = async (email, password) => {
+
+  console.log("User successfully called the function")
+
   try {
     let user = await User.findOne({ email });
     if (!user) {
