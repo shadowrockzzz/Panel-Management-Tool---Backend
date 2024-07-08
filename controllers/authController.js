@@ -5,16 +5,39 @@ import User from '../model/user.js'
 // import {registerUser, loginUser} from '../services/authservice'
 
 const register = async (req,res)=>{
-    const {userName, password} = req.body;
+    
+    const panel = req.body
+
+    console.log(panel)
 
     try{
-        let user = User.findOne({userName})
+        let user = await User.findOne({userName:panel.name})
+        console.log("panel",panel)
         if(user) {
             return res.status(400).json({message: "User already exists"});
         }
-        user = new User({userName, password})
-        const salt = await bcrypt.genSalt(10)
-        user.password = await bcrypt.hash(password, salt)
+
+        user = new User({
+            userName: panel.name,
+            password: "password",
+            role:panel.band,
+            skillSet: panel.skullSet,
+            emailId: panel.emailId,
+            ICPCertified: panel.ICPCertified,
+            city: panel.city,
+            accountName: panel.accountName,
+            subPractice: panel.subPractice,
+            band: panel.band,
+            EmpId: panel.empId,
+            sector: panel.sector,
+            location: panel.location,
+            contactNumber: panel.contactNumber,
+            practice: panel.practice,
+            level: panel.level
+        })
+        // const salt = await bcrypt.genSalt(10)
+        // user.password = await bcrypt.hash(password, salt)
+        console.log(user)
         await user.save()
         res.status(201).json({message: "User sucessfully registered"});
     }
@@ -24,7 +47,6 @@ const register = async (req,res)=>{
 }
 
 const login = async (req,res)=>{
-    // console.log(req.query)
     const {userName, password} = req.query;
 
     try{

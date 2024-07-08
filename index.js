@@ -12,6 +12,7 @@ const port = 3000;
 
 
 app.use(cors())
+app.use(express.json())
 
 mongoose.connect(config.database.uri,config.database.options).then(()=>{
     console.log("Connection to MongoDB database has been started")
