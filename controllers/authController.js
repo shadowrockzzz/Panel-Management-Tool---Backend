@@ -21,7 +21,7 @@ const register = async (req,res)=>{
             userName: panel.name,
             password: "password",
             role:panel.band,
-            skillSet: panel.skullSet,
+            skillSet: panel.skillSet,
             emailId: panel.emailId,
             ICPCertified: panel.ICPCertified,
             city: panel.city,
