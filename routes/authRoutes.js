@@ -9,6 +9,7 @@ import slotController from '../controllers/slotController.js';
 router.post('/register', authController.register);
 router.get('/login', authController.login);
 router.get('/panel',panelController.getPanelData);
+router.get('/filterpanel',panelController.panelFilter)
 router.get('/getslots',slotController.getSlots);
 router.post('/updateslots',slotController.updateSlots)
 router.post('/addslot',slotController.addSlot)
