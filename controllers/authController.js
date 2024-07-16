@@ -47,10 +47,14 @@ const register = async (req,res)=>{
 }
 
 const login = async (req,res)=>{
+
+    console.log(req.query)
+
     const {userName, password} = req.query;
 
     try{
         let user = await User.findOne({userName})
+        console.log(user)
     if(!user){
         res.status(404).json({message:"Invalid Credentials"})
     }
@@ -73,10 +77,8 @@ const login = async (req,res)=>{
     }
     catch(err){
         console.error(err)
-        res.send(500).json({message:"Database Issue"})
+        res.status(500).json({message:"Database Issue"})
     }
-
-
 }
 
 export default {register,login}

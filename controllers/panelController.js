@@ -41,6 +41,7 @@ const getAllPanels = async (req, res) => {
 const panelFilter = async(req,res)=>{
   try{
     const data = req.query
+    // console.log(data)
   const dateBandWidth = {}
   if(data.start){
     const start = new Date(data.start);
@@ -63,6 +64,7 @@ const panelFilter = async(req,res)=>{
       set.add(item.bookedBy)
     }
   }
+  // console.log(slots)
 
   const promises = []
 
@@ -71,14 +73,15 @@ const panelFilter = async(req,res)=>{
     const promise = User.find({
       userName: {$eq:item}
     }).then((panel)=>{
-      // console.log(panel,panel[0])
       panelSet.add(panel[0])
+      // console.log(panelSet)
     })
     promises.push(promise)
   })
 
   Promise.all(promises).then(()=>{
     const halfFilterArray = Array.from(panelSet)
+    console.log(halfFilterArray)
     const resultArray = []
     for (let userPanel of halfFilterArray){
       let canbeAdded = true
@@ -93,13 +96,13 @@ const panelFilter = async(req,res)=>{
             canbeAdded = false
           }
         }
-        else if(item!="accountName"){
-          if(userPanel.accountName===data[item]){
+        else if(item==="accountName"){
+          if(userPanel.accountName!=data[item]){
             canbeAdded = false
           } 
         }
-        else if(item!="skillSet"){
-          if(userPanel.skillSet.includes(data[item])){
+        else if(item==="skillSet"){
+          if(!userPanel.skillSet.includes(data[item])){
             canbeAdded = false
           }
         } 
@@ -109,7 +112,7 @@ const panelFilter = async(req,res)=>{
       }
     }
     if(resultArray.length>0) res.status(200).send(resultArray)
-    console.log(resultArray)
+    // console.log(resultArray)
     if(resultArray.length===0) res.status(200).send(resultArray)
   })
   }
