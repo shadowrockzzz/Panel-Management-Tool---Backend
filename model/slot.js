@@ -5,7 +5,8 @@ const slotSchema = new mongoose.Schema({
     end:{type:Date},
     status:{type:String},
     bookedBy:{type:String},
-    comments:{type:String}
+    comments:{type:String},
+    reviewedBy:{type:String}
 })
 
 

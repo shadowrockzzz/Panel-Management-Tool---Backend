@@ -16,6 +16,7 @@ router.post('/addslot',slotController.addSlot)
 router.get('/getslotsbypanel', slotController.getSlotsByPanel)
 router.delete('/slot/:id',slotController.deleteSlot)
 router.get('/allpanels',panelController.getAllPanels)
+router.get('/getslotsbypanelanddates',slotController.getSlotsByPanelAndDates)
 
 // Example protected route (requires token)
 router.get('/protected', authMiddleware, (req, res) => {

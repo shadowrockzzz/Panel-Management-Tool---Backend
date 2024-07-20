@@ -1,5 +1,4 @@
 import Slot from "../model/slot.js";
-import user from "../model/user.js";
 import User from "../model/user.js";
 
 const getPanelData = async (req, res) => {
@@ -45,16 +44,16 @@ const panelFilter = async(req,res)=>{
   const dateBandWidth = {}
   if(data.start){
     const start = new Date(data.start);
-    const startDateInUTC = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate(),
-    start.getHours(), start.getMinutes(),start.getSeconds()))
-    dateBandWidth.start = {$gte:startDateInUTC}
+    const startDate1 = new Date(start.getFullYear(), start.getMonth(), start.getDate(),
+    start.getHours(), start.getMinutes(),start.getSeconds())
+    dateBandWidth.start = {$gte:startDate1}
     
   }
   if(data.end){
     const end = new Date(data.end)
-    const endDateInUTC = new Date(Date.UTC(end.getFullYear(), end.getMonth(), end.getDate(),
-    end.getHours(), end.getMinutes(),end.getSeconds()))
-    dateBandWidth.end = {$lte:endDateInUTC}
+    const endDate1 = new Date(end.getFullYear(), end.getMonth(), end.getDate(),
+    end.getHours(), end.getMinutes(),end.getSeconds())
+    dateBandWidth.end = {$lte:endDate1}
   }
 
   const slots = await Slot.find(dateBandWidth)
@@ -81,7 +80,6 @@ const panelFilter = async(req,res)=>{
 
   Promise.all(promises).then(()=>{
     const halfFilterArray = Array.from(panelSet)
-    console.log(halfFilterArray)
     const resultArray = []
     for (let userPanel of halfFilterArray){
       let canbeAdded = true
@@ -102,7 +100,7 @@ const panelFilter = async(req,res)=>{
           } 
         }
         else if(item==="skillSet"){
-          if(!userPanel.skillSet.includes(data[item])){
+          if(!userPanel.skillSet.toLowerCase().includes(data[item].toLowerCase())){
             canbeAdded = false
           }
         } 
