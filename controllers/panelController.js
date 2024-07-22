@@ -45,14 +45,14 @@ const panelFilter = async(req,res)=>{
   if(data.start){
     const start = new Date(data.start);
     const startDate1 = new Date(start.getFullYear(), start.getMonth(), start.getDate(),
-    start.getHours(), start.getMinutes(),start.getSeconds())
+    0,0,0)
     dateBandWidth.start = {$gte:startDate1}
     
   }
   if(data.end){
     const end = new Date(data.end)
     const endDate1 = new Date(end.getFullYear(), end.getMonth(), end.getDate(),
-    end.getHours(), end.getMinutes(),end.getSeconds())
+    23,59,59)
     dateBandWidth.end = {$lte:endDate1}
   }
 
