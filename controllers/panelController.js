@@ -1,6 +1,9 @@
 import Slot from "../model/slot.js";
 import User from "../model/user.js";
 
+import fs from 'fs';
+import xlsx from 'xlsx';
+
 const getPanelData = async (req, res) => {
   const { userName, token } = req.query;
 
@@ -121,4 +124,55 @@ const panelFilter = async(req,res)=>{
   // console.log(set,panelSet)
 }
 
-export default { getPanelData, getAllPanels, panelFilter };
+const getUploadedList = async(req,res)=>{
+  if (req.file){
+    fs.readFile('Uploads/'+req.file.originalname,(err,data)=>{
+    if(err){
+      console.error(err)
+      return
+    }
+    const filepath = 'Uploads/'+req.file.originalname
+    const workBook = xlsx.readFile(filepath)
+    const firstSheetName = workBook.SheetNames[0]
+    const sheet = workBook.Sheets[firstSheetName]
+    const data1 = xlsx.utils.sheet_to_json(sheet)
+    data1.forEach((panel)=>{
+      if(panel._id){
+        delete panel._id
+      }
+      if (panel.__v){
+        delete panel.__v
+      }
+      const user = new User({
+        userName: panel.userName,
+        password: panel.password,
+        role:panel.role,
+        band:panel.band,
+        skillSet: panel.skillSet,
+        emailId: panel.emailId,
+        ICPCertified: panel.ICPCertified,
+        city: panel.city,
+        accountName: panel.accountName,
+        subPractice: panel.subPractice,
+        band: panel.band,
+        EmpId: panel.empId,
+        sector: panel.sector,
+        location: panel.location,
+        contactNumber: panel.contactNumber,
+        practice: panel.practice,
+        level: panel.level
+      })
+        // const salt = await bcrypt.genSalt(10)
+        // user.password = await bcrypt.hash(password, salt)
+       user.save()
+    })
+
+  })
+  res.status(201).send({data: "Uploaded the file"})
+  }
+else{
+  res.status(415).send("Unsuccessfull upload. Please try again with correct file.")
+}
+}
+
+export default { getPanelData, getAllPanels, panelFilter, getUploadedList };

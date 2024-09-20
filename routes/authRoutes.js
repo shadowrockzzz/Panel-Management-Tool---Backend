@@ -4,6 +4,7 @@ import authController from '../controllers/authController.js'
 import authMiddleware from '../middleware/authmiddleware.js'
 import panelController from '../controllers/panelController.js'
 import slotController from '../controllers/slotController.js';
+import upload from '../middleware/uploadFile.js'
 
 // API endpoints for authentication
 router.post('/register', authController.register);
@@ -17,6 +18,7 @@ router.get('/getslotsbypanel', slotController.getSlotsByPanel)
 router.delete('/slot/:id',slotController.deleteSlot)
 router.get('/allpanels',panelController.getAllPanels)
 router.get('/getslotsbypanelanddates',slotController.getSlotsByPanelAndDates)
+router.post('/uploadfile',upload.single('file'),panelController.getUploadedList)
 
 // Example protected route (requires token)
 router.get('/protected', authMiddleware, (req, res) => {
