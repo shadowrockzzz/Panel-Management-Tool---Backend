@@ -60,11 +60,17 @@ const getSlotsByPanelAndDates = async(req,res)=>{
         0, 0,0)
         const endDate1 = new Date(end.getFullYear(), end.getMonth(), end.getDate(),
         23, 59,59)
-        const slots = await Slot.find({
+        const slots1 = await Slot.find({
             start: {$gte: startDate1},
             end:{$lte:endDate1},
             bookedBy: {$eq: userName}
         })
+        const assingendSlots = await Slot.find({
+            start: {$gte: startDate1},
+            end:{$lte:endDate1},
+            AssignedTAID: {$eq:userName}
+        })
+        const slots = [...slots1,...assingendSlots]
         if(slots){
             res.status(200).send(slots)
         }

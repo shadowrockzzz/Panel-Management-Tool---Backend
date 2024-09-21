@@ -19,7 +19,7 @@ router.delete('/slot/:id',slotController.deleteSlot)
 router.get('/allpanels',panelController.getAllPanels)
 router.get('/getslotsbypanelanddates',slotController.getSlotsByPanelAndDates)
 router.post('/uploadfile',upload.single('file'),panelController.getUploadedList)
-
+router.get('/gettas',panelController.getAllTAs)
 // Example protected route (requires token)
 router.get('/protected', authMiddleware, (req, res) => {
   res.send('You have access to this protected route');

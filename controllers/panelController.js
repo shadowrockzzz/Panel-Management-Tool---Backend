@@ -1,4 +1,5 @@
 import Slot from "../model/slot.js";
+import user from "../model/user.js";
 import User from "../model/user.js";
 
 import fs from 'fs';
@@ -39,6 +40,23 @@ const getAllPanels = async (req, res) => {
     res.status(500).send("Internal Database Error");
   }
 };
+
+const getAllTAs = async(req,res)=>{
+  try{
+    const TAs = await User.find({
+      role: {$eq: 'TA'}
+    })
+
+    if (TAs.length==0){
+      res.status(404).send("No TA's exist");
+    }
+    else{
+      res.status(200).send(TAs);
+    }
+  } catch(err){
+    res.status(500).send("Internal Database Error");
+  }
+}
 
 const panelFilter = async(req,res)=>{
   try{
@@ -175,4 +193,4 @@ else{
 }
 }
 
-export default { getPanelData, getAllPanels, panelFilter, getUploadedList };
+export default { getPanelData, getAllPanels, panelFilter, getUploadedList, getAllTAs };
