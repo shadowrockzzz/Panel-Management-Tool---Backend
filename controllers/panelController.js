@@ -6,14 +6,14 @@ import fs from 'fs';
 import xlsx from 'xlsx';
 
 const getPanelData = async (req, res) => {
-  const { userName, token } = req.query;
+  const { empId, token } = req.query;
 
-  if (!userName) {
+  if (!empId) {
     res.status(404).send("Unable to get the userName");
   }
 
   try {
-    let data = await User.findOne({ userName: userName });
+    let data = await User.findOne({ EmpId: empId });
 
     if (!data) {
       res.status(404).send("Unable to find the specific member");
@@ -91,7 +91,7 @@ const panelFilter = async(req,res)=>{
   const panelSet = new Set()
   set.forEach((item)=>{
     const promise = User.find({
-      userName: {$eq:item}
+      EmpId: {$eq:item}
     }).then((panel)=>{
       panelSet.add(panel[0])
       // console.log(panelSet)

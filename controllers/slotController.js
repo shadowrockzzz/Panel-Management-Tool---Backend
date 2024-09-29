@@ -31,13 +31,13 @@ const updateSlots = async(req,res)=>{
 
 const getSlotsByPanel = async(req,res)=>{
     try{
-        const {startDate, userName} = req.query
+        const {startDate, userId} = req.query
         const start = new Date(startDate);
         const startDate1 = new Date(start.getFullYear(), start.getMonth(), start.getDate(),
         start.getHours(), start.getMinutes(),start.getSeconds())
         const slots = await Slot.find({
             start: {$gte: startDate1},
-            bookedBy: {$eq: userName}
+            bookedBy: {$eq: userId}
         })
         if(slots){
             res.status(200).send(slots)
@@ -53,7 +53,7 @@ const getSlotsByPanel = async(req,res)=>{
 
 const getSlotsByPanelAndDates = async(req,res)=>{
     try{
-        const {startDate, endDate, userName} = req.query
+        const {startDate, endDate, userId} = req.query
         const start = new Date(startDate);
         const end = new Date(endDate);
         const startDate1 = new Date(start.getFullYear(), start.getMonth(), start.getDate(),
@@ -63,12 +63,12 @@ const getSlotsByPanelAndDates = async(req,res)=>{
         const slots1 = await Slot.find({
             start: {$gte: startDate1},
             end:{$lte:endDate1},
-            bookedBy: {$eq: userName}
+            bookedBy: {$eq: userId}
         })
         const assingendSlots = await Slot.find({
             start: {$gte: startDate1},
             end:{$lte:endDate1},
-            AssignedTAID: {$eq:userName}
+            AssignedTAID: {$eq:userId}
         })
         const slots = [...slots1,...assingendSlots]
         if(slots){

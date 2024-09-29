@@ -45,15 +45,13 @@ const register = async (req,res)=>{
 
 const login = async (req,res)=>{
 
-    const {userName, password} = req.query;
-
+    const {empId, password} = req.query;
     try{
-        let user = await User.findOne({userName})
+        let user = await User.findOne({EmpId: empId})
+
     if(!user){
         res.status(404).json({message:"Invalid Credentials"})
     }
-    
-    // const isMatch = await bcrypt.compare(password, user.password)
     const isMatch = (password===user.password) ? true : false;
 
     if(!isMatch){
@@ -66,7 +64,7 @@ const login = async (req,res)=>{
         if(err){
             throw err;
         }
-        res.json({token})
+        res.json({"token": token, "userName": user.userName})
     })
     }
     catch(err){
